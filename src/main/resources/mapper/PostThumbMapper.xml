@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrx.springbootinit.mapper.PostThumbMapper">
+
+    <resultMap id="BaseResultMap" type="com.zrx.springbootinit.model.entity.PostThumb">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="postId" column="postId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,postId,
+        userId,createTime,updateTime
+    </sql>
+
+    <delete id="removeBatchCelThumb">
+        DELETE
+        FROM
+            post_thumb
+        WHERE
+            <foreach collection="list" item="postNotThumb" index="index" open="(" separator="OR" close=")">
+                postId = #{postNotThumb.postId} AND
+                userId = #{postNotThumb.userId}
+            </foreach>
+    </delete>
+</mapper>
